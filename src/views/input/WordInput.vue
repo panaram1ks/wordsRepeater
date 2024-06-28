@@ -7,6 +7,7 @@ import {ref, defineProps, defineEmits} from 'vue';
 
 const inputValue = ref('');
 const blackRedGreen = ref('');
+const countMistake = ref(0);
 
 /* eslint-disable-next-line no-unused-vars */
 const props = defineProps({
@@ -14,7 +15,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-    'input-correct'
+  'input-correct'
   // ,'update:inputValue'
 ]);
 
@@ -28,7 +29,14 @@ const checkInput = () => {
       emit('input-correct');
     }, 2000);
   } else {
-    blackRedGreen.value = 'incorrect'
+    countMistake.value++
+    if (countMistake.value === 2) {
+      countMistake.value = 0
+      inputValue.value = '';
+      blackRedGreen.value = '';
+    } else {
+      blackRedGreen.value = 'incorrect'
+    }
   }
 };
 </script>
